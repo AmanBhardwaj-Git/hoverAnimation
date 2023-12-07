@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+      }
+      #main {
+        height: 100%;
+        width: 100%;
+        display: grid;
+        place-content: center;
+      }
+      #mainpart {
+        width: 400px;
+        height: 400px;
+        border-radius: 50%;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-flow: column nowrap;
+padding:10px;
+    }
+    #circlepart{
+        width: 400px;
+        height: 400px;
+        border-radius: 50%;
+       background-color: transparent;
+       border-style:double;
+       border:16px solid grey; 
+       border-top-color: red;
+       border-left-color: yellow;
+       border-right-color: green;
+       border-bottom-color: blue;
+        position: absolute;
+        padding: 10px;
+    }
+    #circlepart:hover{
+      animation-name: spin;
+      animation-duration: 5s;
+      animation-timing-function: linear;
+      animation-delay: 0ms;
+      animation-iteration-count: infinite;
+animation-fill-mode: forwards;
+animation-direction: alternate;
+      }
+      @keyframes spin {
+      
+        100% {
+            transform: rotate(1turn);
+        }
+      }
+      h1{
+        font-weight: 900;
+      
+        text-align: center;
+        font-size: 100px;
+background-size: cover;
+background-position: center;
+background-clip: text;
+background-image: url('https://wallpaperaccess.com/full/210938.jpg');
+-webkit-background-clip: text;
+        word-break: keep-all;
+        color:transparent;
+      }
+     h1 span{
+        text-align: center;
+font-size: 70px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="main">
+      <div id="mainpart">
+        <div id="circlepart"></div>
+        <h1>Aman<br></h1><h1><span>Bhardwaj</span></h1>
+      </div>
+    </div>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.3/gsap.min.js"
+      integrity="sha512-7Au1ULjlT8PP1Ygs6mDZh9NuQD0A5prSrAUiPHMXpU6g3UMd8qesVnhug5X4RoDr35x5upNpx0A6Sisz1LSTXA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <script>
+      let rect = document.querySelector("#mainpart");
+      rect.addEventListener("mousemove", function (details) {
+        let rectLocation = rect.getBoundingClientRect();
+
+        let insideRectX = Math.ceil(details.clientX - rectLocation.left);
+        let insideRectY = Math.ceil(details.clientY - rectLocation.top);
+        if (
+          insideRectX < rectLocation.width / 2 &&
+          insideRectY < rectLocation.height / 2
+        ) {
+          var redColor = gsap.utils.mapRange(
+            0,
+            rectLocation.width / 2,
+            255,
+            0,
+            insideRectX
+          );
+
+          gsap.to(rect, {
+            backgroundColor: `rgb(${redColor},0,0)`,
+            ease: Power4,
+          });
+        } else if (
+          insideRectX > rectLocation.width / 2 &&
+          insideRectY > rectLocation.height / 2
+        ) {
+          var blueColor = gsap.utils.mapRange(
+            rectLocation.width / 2,
+            rectLocation.width,
+            0,
+            255,
+            insideRectX
+          );
+          gsap.to(rect, {
+            backgroundColor: `rgb(0,0,${blueColor})`,
+            ease: Power4,
+          });
+        } else if (
+          insideRectX > rectLocation.width / 2 &&
+          insideRectY < rectLocation.height / 2
+        ) {
+          var greenColor = gsap.utils.mapRange(
+            rectLocation.width / 2,
+            rectLocation.width,
+            0,
+            255,
+            insideRectX
+          );
+          gsap.to(rect, {
+            backgroundColor: `rgb(0,${greenColor},0)`,
+            ease: Power4,
+          });
+        } else if (
+          insideRectX < rectLocation.width / 2 &&
+          insideRectY > rectLocation.height / 2
+        ) {
+          var yellowColor = gsap.utils.mapRange(
+            0,
+            rectLocation.width / 2,
+            255,
+            0,
+            insideRectX
+          );
+          gsap.to(rect, {
+            backgroundColor: `rgb(${yellowColor},${yellowColor},0)`,
+            ease: Power4,
+          });
+        }
+      });
+      rect.addEventListener("mouseout", function () {
+        gsap.to(rect, {
+          backgroundColor: "white",
+          ease: Power2,
+        });
+      });
+     
+    </script>
+  </body>
+</html>
